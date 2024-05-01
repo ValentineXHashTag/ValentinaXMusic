@@ -9,6 +9,7 @@ from urllib.parse import urlparse
 from youtube_search import YoutubeSearch
 from yt_dlp import YoutubeDL
 
+from config import BOT_USERNAME as bn
 from AnonXMusic import app
 from pyrogram import filters
 from pyrogram import Client, filters
@@ -79,7 +80,9 @@ async def download_song(_, message):
         with yt_dlp.YoutubeDL(ydl_ops) as ydl:
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
-            ydl.process_info(info_dict)
+            ydl.process_info(info_dict
+        rep = f"• uploader @{bn}"
+        host = str(info_dict["uploader"])          
         secmul, dur, dur_arr = 1, 0, duration.split(":")
         for i in range(len(dur_arr) - 1, -1, -1):
             dur += int(float(dur_arr[i])) * secmul
@@ -88,10 +91,12 @@ async def download_song(_, message):
 
         await message.reply_audio(
             audio_file,
+            caption=rep,
+            performer=host,
             thumb=thumb_name,
+            parse_mode="md",
             title=title,
-            caption=f"{title}\nRᴇǫᴜᴇsᴛᴇᴅ ʙʏ ➪{message.from_user.mention}\nVɪᴇᴡs➪ {views}\nCʜᴀɴɴᴇʟ➪ {channel_name}",
-            duration=dur
+            duration=dur,
         )
         await m.delete()
     except Exception as e:
