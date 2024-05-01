@@ -80,7 +80,7 @@ async def download_song(_, message):
         with yt_dlp.YoutubeDL(ydl_ops) as ydl:
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
-            ydl.process_info(info_dict
+            ydl.process_info(info_dict)
         rep = f"• uploader @{bn}"
         host = str(info_dict["uploader"])          
         secmul, dur, dur_arr = 1, 0, duration.split(":")
